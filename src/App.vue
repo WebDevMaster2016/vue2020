@@ -13,35 +13,48 @@
 					>
 					</app-field>
 				</div>
-				<button class="btn btn-primary"
-						type="button"
-				        :disabled="!formReady"
-				        @click="formDone = !formDone"
+				<b-button variant="primary"
+				          @click="showModal"
+				          :disabled="!formReady"
 				>
 					Send Data
-				</button>
+				</b-button>
 			</form>
 			<div v-else>
+				<hr>
+				<h1>All done!</h1>
+			</div>
+			<b-modal ref="my-modal" title="Confirm data">
 				<table class="table table-bordered">
 					<tr v-for="(field) in info">
 						<td>{{ field.name }}</td>
 						<td>{{ field.value }}</td>
 					</tr>
 				</table>
-			</div>
+				<template v-slot:modal-footer>
+					<b-button variant="secondary"
+					          @click="hideModal"
+					>Cancel</b-button>
+					<b-button variant="primary"
+					          @click="showResult"
+					>0K</b-button>
+				</template>
+			</b-modal>
 		</div>
 	</b-container>
 </template>
 
 <script>
 	import AppField from './components/Field.vue';
-	import {BProgress, BContainer } from 'bootstrap-vue'
+	import {BProgress, BContainer, BModal, BButton } from 'bootstrap-vue'
 	
 	export default {
 		components: {
 			AppField,
 			BProgress,
-			BContainer
+			BContainer,
+			BModal,
+            BButton
 		},
 		data() {
 			return {
@@ -90,7 +103,17 @@
 				let field = this.info[ind];
 				field.value = payload.value;
 				field.valid = payload.valid;
-			}
+			},
+            showModal() {
+                this.$refs['my-modal'].show()
+            },
+            hideModal() {
+                this.$refs['my-modal'].hide()
+            },
+            showResult() {
+			    this.hideModal();
+			    this.formDone = true;
+            }
 		},
 		created() {
 			this.info.forEach(field => {
