@@ -5,7 +5,7 @@
 			<v-icon v-show="activated"
 					:name="icon.name"
 					:class="icon.class"
-					:key="icon.id"
+					:key="icon.name"
 			/>
 		</transition>
 		<input type="text"
@@ -46,14 +46,12 @@
                 if (this.isValid) {
                     return {
                         name: 'check-circle',
-                        class: 'text-success',
-						id: 0
+                        class: 'text-success'
                     }
                 } else {
                     return {
                         name: 'exclamation-circle',
-                        class: 'text-danger',
-						id: 1
+                        class: 'text-danger'
                     }
                 }
             }
